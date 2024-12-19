@@ -16,13 +16,11 @@ public class LoggerBenchmarkTest
     });
 
     private readonly ILogger<LoggerBenchmarkTest> _logger;
-    private readonly ILoggerAdapter<LoggerBenchmarkTest> _loggerAdapter;
 
 
     public LoggerBenchmarkTest()
     {
         _logger = new Logger<LoggerBenchmarkTest>(_loggerFactory);
-        _loggerAdapter = new LoggerAdapter<LoggerBenchmarkTest>(_logger);
     }
 
     [Benchmark]
@@ -32,20 +30,9 @@ public class LoggerBenchmarkTest
     }
 
     [Benchmark]
-    public void StandardLogger_LogWithAdapter_Parameters()
-    {
-        _loggerAdapter.LogInformation(LogMessageWithParameters, 1, 2, 3);
-    }
-
-    [Benchmark]
     public void StandardLogger_LogWithoutIf_NoParameters()
     {
         _logger.LogInformation(LogMessage);
     }
 
-    [Benchmark]
-    public void StandardLogger_LogWithAdapter_NoParameters()
-    {
-        _loggerAdapter.LogInformation(LogMessage);
-    }
 }
