@@ -9,6 +9,7 @@
 
     <ItemGroup>
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.0"/>
+        <PackageReference Include="OpenTelemetry.Exporter.Console" Version="1.11.0-rc.1" />
         <PackageReference Include="Scalar.AspNetCore" Version="1.2.64" />
     </ItemGroup>
 
@@ -16,6 +17,10 @@
       <Content Include="..\.dockerignore">
         <Link>.dockerignore</Link>
       </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\InfrastructureExtensions\InfrastructureExtensions.csproj" />
     </ItemGroup>
 
 </Project>

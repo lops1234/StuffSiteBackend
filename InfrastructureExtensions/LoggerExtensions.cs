@@ -16,7 +16,7 @@ public static class LoggerExtensions
     {
         if (logger.IsEnabled(LogLevel.Information))
         {
-            logger.LogInformation(message, arg0);
+            logger.Log(LogLevel.Information, null, message, arg0);
         }
     }
 
@@ -24,7 +24,7 @@ public static class LoggerExtensions
     {
         if (logger.IsEnabled(LogLevel.Information))
         {
-            logger.LogInformation(message, arg0, arg1);
+            logger.Log(LogLevel.Information, null, message, arg0, arg1);
         }
     }
 
@@ -32,7 +32,7 @@ public static class LoggerExtensions
     {
         if (logger.IsEnabled(LogLevel.Information))
         {
-            logger.LogInformation(message, arg0, arg1, arg2);
+            logger.Log(LogLevel.Information, null, message, arg0, arg1, arg2);
         }
     }
 }

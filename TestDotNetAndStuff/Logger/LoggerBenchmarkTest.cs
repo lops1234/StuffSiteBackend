@@ -24,15 +24,21 @@ public class LoggerBenchmarkTest
     }
 
     [Benchmark]
-    public void StandardLogger_LogWithoutIf_Parameters()
+    public void Param_3()
     {
         _logger.LogInformation(LogMessageWithParameters, 1, 2, 3);
     }
 
     [Benchmark]
-    public void StandardLogger_LogWithoutIf_NoParameters()
+    public void Param_2()
     {
-        _logger.LogInformation(LogMessage);
+        _logger.LogInformation(LogMessageWithParameters,1, 2);
+    }
+    
+    [Benchmark]
+    public void Param_1()
+    {
+        _logger.LogInformation(LogMessageWithParameters,1);
     }
 
 }

@@ -1,10 +1,15 @@
+using ApiHost.Logging;
 using Scalar.AspNetCore;
+
 var builder = WebApplication.CreateBuilder(args);
+
 
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
+// Configure logging using the LoggingConfiguration class
+LoggingConfiguration.ConfigureLogging(builder);
 
 var app = builder.Build();
 
@@ -12,10 +17,9 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
-    
+
     app.MapOpenApi();
     app.MapScalarApiReference(); // scalar/v1
-
 }
 
 if (!app.Environment.IsDevelopment())
@@ -30,7 +34,7 @@ var summaries = new[]
     "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
 };
 
-app.MapGet("/weatherforecast", () =>
+app.MapGet("/weatherforecast", (ILogger<Program> logger) =>
     {
         var forecast = Enumerable.Range(1, 5).Select(index =>
                 new WeatherForecast
