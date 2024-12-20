@@ -1,9 +1,17 @@
-﻿services:
+﻿version: '3.8'
+
+services:
   apihost:
     image: apihost
     build:
       context: .
       dockerfile: ApiHost/Dockerfile
+      args:
+        ENVIRONMENT_CONFIGURATION: Development
+        BUILD_CONFIGURATION: Development
+        CERT_PASSWORD: ${CERT_PASSWORD}
     ports:
       - "7039:7039"
       - "5092:5092"
+    environment:
+      - CERT_PASSWORD=${CERT_PASSWORD}
