@@ -13,14 +13,16 @@ public static class KestrelConfiguration
     private static void CertificateConfiguration(WebApplicationBuilder builder)
     {
         var certPath = Environment.GetEnvironmentVariable("ASPNETCORE_Kestrel__Certificates__Default__Path") ??
-                       "aspnet-dev-cert.pfx";
+                       builder.Configuration.GetSection("Certificate").GetValue<string>("Path");
+        
         var certKey = Environment.GetEnvironmentVariable("ASPNETCORE_Kestrel__Certificates__Default__Password") ??
-                      "ola1234";
+                      builder.Configuration.GetSection("Certificate").GetValue<string>("Password");
+        
         builder.WebHost.ConfigureKestrel(options =>
         {
             options.ConfigureHttpsDefaults(httpsOptions =>
             {
-                httpsOptions.ServerCertificate = X509CertificateLoader.LoadPkcs12FromFile(certPath, certKey);
+                httpsOptions.ServerCertificate = X509CertificateLoader.LoadPkcs12FromFile(certPath!, certKey);
             });
         });
     }
