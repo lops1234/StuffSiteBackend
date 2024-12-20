@@ -4,3 +4,6 @@
     build:
       context: .
       dockerfile: ApiHost/Dockerfile
+    ports:
+      - "7039:7039"
+      - "5092:5092"

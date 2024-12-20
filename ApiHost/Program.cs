@@ -1,3 +1,4 @@
+using ApiHost.Kestrel;
 using ApiHost.Logging;
 using Scalar.AspNetCore;
 
@@ -8,12 +9,17 @@ var builder = WebApplication.CreateBuilder(args);
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
+//configure web host
+KestrelConfiguration.ConfigureKestrel(builder);
+
 // Configure logging using the LoggingConfiguration class
 LoggingConfiguration.ConfigureLogging(builder);
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
+Console.WriteLine(app.Environment.IsDevelopment());
+
 if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
