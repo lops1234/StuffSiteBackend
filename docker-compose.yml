@@ -7,11 +7,17 @@ services:
       context: .
       dockerfile: ApiHost/Dockerfile
       args:
-        ENVIRONMENT_CONFIGURATION: Development
-        BUILD_CONFIGURATION: Development
+        ENVIRONMENT_CONFIGURATION: ${ENVIRONMENT_CONFIGURATION}
+        BUILD_CONFIGURATION: ${BUILD_CONFIGURATION}
         CERT_PASSWORD: ${CERT_PASSWORD}
+        HTTP_PORT: ${HTTP_PORT}
+        HTTPS_PORT: ${HTTPS_PORT}
     ports:
-      - "7039:7039"
-      - "5092:5092"
+      - "${HTTP_PORT}:${HTTP_PORT}"
+      - "${HTTPS_PORT}:${HTTPS_PORT}"
     environment:
       - CERT_PASSWORD=${CERT_PASSWORD}
+      - HTTP_PORT=${HTTP_PORT}
+      - HTTPS_PORT=${HTTPS_PORT}
+      - ENVIRONMENT_CONFIGURATION=Development
+      - BUILD_CONFIGURATION=Development
