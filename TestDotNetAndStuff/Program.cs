@@ -5,4 +5,4 @@ using TestDotNetAndStuff.Logger;
 
 Console.WriteLine("Hello, World!");
 
-// BenchmarkRunner.Run<LoggerBenchmarkTest>();
+BenchmarkRunner.Run<LoggerBenchmarkTest>();

@@ -1,6 +1,25 @@
-﻿services:
+﻿version: '3.8'
+
+services:
   apihost:
     image: apihost
     build:
       context: .
       dockerfile: ApiHost/Dockerfile
+      args:
+        ENVIRONMENT_CONFIGURATION: ${ENVIRONMENT_CONFIGURATION}
+        BUILD_CONFIGURATION: ${BUILD_CONFIGURATION}
+        CERT_PASSWORD: ${CERT_PASSWORD}
+        CERT_PATH: ${CERT_PATH}
+        HTTP_PORT: ${HTTP_PORT}
+        HTTPS_PORT: ${HTTPS_PORT}
+    ports:
+      - "${HTTP_PORT}:${HTTP_PORT}"
+      - "${HTTPS_PORT}:${HTTPS_PORT}"
+    environment:
+      - CERT_PASSWORD=${CERT_PASSWORD}
+      - CERT_PATH=${CERT_PATH}
+      - HTTP_PORT=${HTTP_PORT}
+      - HTTPS_PORT=${HTTPS_PORT}
+      - ENVIRONMENT_CONFIGURATION=Development
+      - BUILD_CONFIGURATION=Development
