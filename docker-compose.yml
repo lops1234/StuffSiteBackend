@@ -11,6 +11,7 @@
         CERT_PATH: ${CERT_PATH}
         HTTP_PORT: ${HTTP_PORT}
         HTTPS_PORT: ${HTTPS_PORT}
+        APP_CONNECTION_STRING: ${APP_CONNECTION_STRING}
     ports:
       - "${HTTP_PORT}:${HTTP_PORT}"
       - "${HTTPS_PORT}:${HTTPS_PORT}"
