@@ -12,6 +12,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestDotNetAndStuff", "TestD
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InfrastructureExtensions", "InfrastructureExtensions\InfrastructureExtensions.csproj", "{B26B259C-82B6-459D-963D-E2F1900D9A28}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntityFrameworkCore", "EntityFrameworkCore\EntityFrameworkCore.csproj", "{FB119E62-1990-4BEF-B72F-2FFF3B2C54CB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,9 @@ Global
 		{B26B259C-82B6-459D-963D-E2F1900D9A28}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B26B259C-82B6-459D-963D-E2F1900D9A28}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B26B259C-82B6-459D-963D-E2F1900D9A28}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB119E62-1990-4BEF-B72F-2FFF3B2C54CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB119E62-1990-4BEF-B72F-2FFF3B2C54CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB119E62-1990-4BEF-B72F-2FFF3B2C54CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB119E62-1990-4BEF-B72F-2FFF3B2C54CB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
