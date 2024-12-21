@@ -6,6 +6,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		docker-compose.yml = docker-compose.yml
 		.env = .env
+		docker-compose.sql-server.yml = docker-compose.sql-server.yml
+		start-containers.bat = start-containers.bat
+		start-containers-with-rebuild.bat = start-containers-with-rebuild.bat
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestDotNetAndStuff", "TestDotNetAndStuff\TestDotNetAndStuff.csproj", "{2D805F4F-5466-4908-9E68-16C91541B07F}"

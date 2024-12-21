@@ -1,7 +1,5 @@
-﻿version: '3.8'
-
-services:
-  apihost:
+﻿services:
+  apiHost:
     image: apihost
     build:
       context: .
@@ -23,3 +21,5 @@ services:
       - HTTPS_PORT=${HTTPS_PORT}
       - ENVIRONMENT_CONFIGURATION=Development
       - BUILD_CONFIGURATION=Development
+#    depends_on:
+#      - sql-server-express
