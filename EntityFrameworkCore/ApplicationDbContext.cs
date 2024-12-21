@@ -10,6 +10,7 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
 {
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
+        Console.WriteLine("OnConfiguring");
         optionsBuilder.AddInterceptors(new PreventEfUpdateInterceptor());
         base.OnConfiguring(optionsBuilder);
     }
