@@ -6,16 +6,24 @@ using Migrator;
 
 Environment.SetEnvironmentVariable("RUNNING_MIGRATIONS", "true");
 var host = CreateHostBuilder(args).Build();
-ApplyMigrations(host);
+ApplyMigrations(host, args);
 return;
 
-static void ApplyMigrations(IHost host)
+static void ApplyMigrations(IHost host, string[] args)
 {
     using var scope = host.Services.CreateScope();
     var services = scope.ServiceProvider;
     var context = services.GetRequiredService<ApplicationDbContext>();
-    context.Database.Migrate();
-    
+
+    if (args.Length != 0)
+    {
+        Console.WriteLine("Starting migrations...");
+        Console.WriteLine($"Migrating to version: {args[0]}");
+        context.Database.Migrate(args[0]);
+        Console.WriteLine("Migrations successfully.");
+        return;
+    }
+
     var pendingMigrations = context.Database.GetPendingMigrations().ToList();
     if (pendingMigrations.Any())
     {
@@ -33,7 +41,6 @@ static void ApplyMigrations(IHost host)
     {
         Console.WriteLine("No pending migrations.");
     }
-    
 }
 
 static IHostBuilder CreateHostBuilder(string[] args) =>
@@ -45,4 +52,3 @@ static IHostBuilder CreateHostBuilder(string[] args) =>
 
             services.AddSingleton(context);
         });
-
