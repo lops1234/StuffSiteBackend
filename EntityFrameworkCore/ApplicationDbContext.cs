@@ -1,5 +1,4 @@
-﻿using EntityFrameworkCore.Rules;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,8 +9,12 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
 {
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        Console.WriteLine("OnConfiguring");
-        optionsBuilder.AddInterceptors(new PreventEfUpdateInterceptor());
+        if (Environment.GetEnvironmentVariable("RUNNING_MIGRATIONS") != "true")
+        {
+            throw new InvalidOperationException("Direct database updates using 'dotnet ef database update' are not allowed.");
+        }
+        
+        Console.WriteLine($"{GetType().Name} OnConfiguring called");
         base.OnConfiguring(optionsBuilder);
     }
 }
