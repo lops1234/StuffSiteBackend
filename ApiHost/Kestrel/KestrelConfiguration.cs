@@ -1,6 +1,6 @@
 ﻿using System.Security.Cryptography.X509Certificates;
 
-namespace ApiHost.Kestrel;
+namespace ApiHost;
 
 public static class KestrelConfiguration
 {
@@ -12,12 +12,14 @@ public static class KestrelConfiguration
 
     private static void CertificateConfiguration(WebApplicationBuilder builder)
     {
+        var loggingOptions = builder.Configuration.GetSection("Certificate").Get<CertificateOptions>();
+
         var certPath = Environment.GetEnvironmentVariable("ASPNETCORE_Kestrel__Certificates__Default__Path") ??
-                       builder.Configuration.GetSection("Certificate").GetValue<string>("Path");
-        
+                       loggingOptions?.Path;
+
         var certKey = Environment.GetEnvironmentVariable("ASPNETCORE_Kestrel__Certificates__Default__Password") ??
-                      builder.Configuration.GetSection("Certificate").GetValue<string>("Password");
-        
+                      loggingOptions?.Password;
+
         builder.WebHost.ConfigureKestrel(options =>
         {
             options.ConfigureHttpsDefaults(httpsOptions =>
@@ -31,11 +33,9 @@ public static class KestrelConfiguration
     {
         if (HasAccessToLaunchSettings()) return;
 
-        // Read ports from environment variables
         var httpPort = Environment.GetEnvironmentVariable("HTTP_PORT") ?? "5092";
         var httpsPort = Environment.GetEnvironmentVariable("HTTPS_PORT") ?? "7039";
 
-        // Configure Kestrel to use the specified ports
         builder.WebHost.ConfigureKestrel(options =>
         {
             options.ListenAnyIP(int.Parse(httpPort),

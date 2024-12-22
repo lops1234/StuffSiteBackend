@@ -1,6 +1,6 @@
 ﻿using OpenTelemetry.Logs;
 
-namespace ApiHost.Logging;
+namespace ApiHost;
 
 public static class LoggingConfiguration
 {

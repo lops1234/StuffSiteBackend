@@ -1,39 +1,23 @@
-using ApiHost.Kestrel;
-using ApiHost.Logging;
+using ApiHost;
+using Microsoft.AspNetCore.Identity;
 using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-
-// Add services to the container.
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
-
-//configure web host
 KestrelConfiguration.ConfigureKestrel(builder);
-
-// Configure logging using the LoggingConfiguration class
 LoggingConfiguration.ConfigureLogging(builder);
+DatabaseConfiguration.ConfigureDatabase(builder);
+AuthorizationConfiguration.ConfigureAuthorization(builder);
+
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-Console.WriteLine(app.Environment.IsDevelopment());
+ConfigureExceptionPage();
+ConfigureApiDocs();
+ConfigureHttps();
+ConfigureAuthorization();
 
-if (app.Environment.IsDevelopment())
-{
-    app.UseDeveloperExceptionPage();
-
-    app.MapOpenApi();
-    app.MapScalarApiReference(); // scalar/v1
-}
-
-if (!app.Environment.IsDevelopment())
-{
-    app.UseHsts();
-}
-
-app.UseHttpsRedirection();
 
 var summaries = new[]
 {
@@ -52,9 +36,50 @@ app.MapGet("/weatherforecast", (ILogger<Program> logger) =>
             .ToArray();
         return forecast;
     })
-    .WithName("GetWeatherForecast");
+    .WithName("GetWeatherForecast")
+    .RequireAuthorization();
 
 app.Run();
+return;
+
+void ConfigureExceptionPage()
+{
+    if (app.Environment.IsDevelopment())
+    {
+        app.UseDeveloperExceptionPage();
+    }
+
+    // app.UseExceptionHandler("/error");
+    // app.UseStatusCodePagesWithReExecute("/error/{0}");
+}
+
+void ConfigureApiDocs()
+{
+    if (app.Environment.IsDevelopment())
+    {
+        app.MapOpenApi();
+        app.MapScalarApiReference(); //.RequireAuthorization();
+    }
+}
+
+void ConfigureHttps()
+{
+    if (!app.Environment.IsDevelopment())
+    {
+        app.UseHsts();
+    }
+
+    app.UseHttpsRedirection();
+}
+
+void ConfigureAuthorization()
+{
+    app.MapIdentityApi<IdentityUser>();
+
+    // app.UseAuthentication();
+    // app.UseAuthorization();
+    // app.MapScalarApiReference().RequireAuthorization();
+}
 
 record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
 {

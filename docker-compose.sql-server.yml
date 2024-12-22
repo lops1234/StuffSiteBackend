@@ -1,0 +1,15 @@
+services:
+  sql-server-express:
+    image: mcr.microsoft.com/mssql/server:latest
+    container_name: docker-sql-server-express
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=${SQL_PASSWORD}
+      - MSSQL_PID=Express
+    ports:
+      - "1433:1433"
+    volumes:
+      - sql-data:/var/opt/mssql
+
+volumes:
+  sql-data:

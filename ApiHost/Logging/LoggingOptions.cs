@@ -1,4 +1,4 @@
-﻿namespace ApiHost.Logging;
+﻿namespace ApiHost;
 
 public class LoggingOptions
 {
