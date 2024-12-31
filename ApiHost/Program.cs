@@ -9,13 +9,14 @@ KestrelConfiguration.ConfigureKestrel(builder);
 LoggingConfiguration.ConfigureLogging(builder);
 DatabaseConfiguration.ConfigureDatabase(builder);
 AuthorizationConfiguration.ConfigureAuthorization(builder);
-
+CorsConfiguration.ConfigureCors(builder);
 
 var app = builder.Build();
-
 ConfigureExceptionPage();
-ConfigureApiDocs();
 ConfigureHttps();
+ConfigureApiDocs();
+
+ConfigureCors();
 ConfigureAuthorization();
 
 
@@ -36,11 +37,16 @@ app.MapGet("/weatherforecast", (ILogger<Program> logger) =>
             .ToArray();
         return forecast;
     })
-    .WithName("GetWeatherForecast")
-    .RequireAuthorization();
+    .WithName("GetWeatherForecast");
+    // .RequireAuthorization();
 
 app.Run();
 return;
+
+void ConfigureCors()
+{
+    app.UseCors(CorsConfiguration.CorsAllowSpecific);
+}
 
 void ConfigureExceptionPage()
 {
@@ -58,7 +64,7 @@ void ConfigureApiDocs()
     if (app.Environment.IsDevelopment())
     {
         app.MapOpenApi();
-        app.MapScalarApiReference(); //.RequireAuthorization();
+        app.MapScalarApiReference();
     }
 }
 
@@ -74,12 +80,14 @@ void ConfigureHttps()
 
 void ConfigureAuthorization()
 {
-    app.MapIdentityApi<IdentityUser>();
+    app.MapCustomIdentityApi<IdentityUser>();
 
     // app.UseAuthentication();
     // app.UseAuthorization();
     // app.MapScalarApiReference().RequireAuthorization();
 }
+
+
 
 record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
 {
