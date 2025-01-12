@@ -1,4 +1,5 @@
 using ApiHost;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Scalar.AspNetCore;
 
@@ -10,6 +11,8 @@ LoggingConfiguration.ConfigureLogging(builder);
 DatabaseConfiguration.ConfigureDatabase(builder);
 AuthorizationConfiguration.ConfigureAuthorization(builder);
 CorsConfiguration.ConfigureCors(builder);
+
+builder.Services.AddSingleton<IAuthorizationMiddlewareResultHandler, CustomAuthorizationFailureHandler>();
 
 var app = builder.Build();
 ConfigureExceptionPage();
@@ -37,8 +40,8 @@ app.MapGet("/weatherforecast", (ILogger<Program> logger) =>
             .ToArray();
         return forecast;
     })
-    .WithName("GetWeatherForecast");
-    // .RequireAuthorization();
+    .WithName("GetWeatherForecast")
+    .RequireAuthorization();
 
 app.Run();
 return;
