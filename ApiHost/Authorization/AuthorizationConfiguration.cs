@@ -1,4 +1,5 @@
 ﻿using EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.BearerToken;
 using Microsoft.AspNetCore.Identity;
 
 namespace ApiHost;
@@ -12,12 +13,10 @@ public static class AuthorizationConfiguration
         builder.Services.AddIdentityApiEndpoints<IdentityUser>()
             .AddEntityFrameworkStores<ApplicationDbContext>();
         
-        // builder.Services.Configure<IdentityOptions>(options =>
-        // {
-        //     options.SignIn.RequireConfirmedEmail = true;
-        // });
-        // need to implement email sender -> that needs some sender
-        // https://learn.microsoft.com/en-us/aspnet/core/security/authentication/accconfirm?view=aspnetcore-9.0&tabs=visual-studio
-        // builder.Services.AddTransient<IEmailSender, EmailSender>();
+        //testing refresh token
+        builder.Services.Configure<BearerTokenOptions>(IdentityConstants.BearerScheme, options =>
+        {
+            options.BearerTokenExpiration = TimeSpan.FromSeconds(5);
+        });
     }
 }

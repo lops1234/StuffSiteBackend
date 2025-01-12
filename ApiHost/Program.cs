@@ -1,4 +1,5 @@
 using ApiHost;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Scalar.AspNetCore;
 
@@ -9,13 +10,16 @@ KestrelConfiguration.ConfigureKestrel(builder);
 LoggingConfiguration.ConfigureLogging(builder);
 DatabaseConfiguration.ConfigureDatabase(builder);
 AuthorizationConfiguration.ConfigureAuthorization(builder);
+CorsConfiguration.ConfigureCors(builder);
 
+builder.Services.AddSingleton<IAuthorizationMiddlewareResultHandler, CustomAuthorizationFailureHandler>();
 
 var app = builder.Build();
-
 ConfigureExceptionPage();
-ConfigureApiDocs();
 ConfigureHttps();
+ConfigureApiDocs();
+
+ConfigureCors();
 ConfigureAuthorization();
 
 
@@ -42,6 +46,11 @@ app.MapGet("/weatherforecast", (ILogger<Program> logger) =>
 app.Run();
 return;
 
+void ConfigureCors()
+{
+    app.UseCors(CorsConfiguration.CorsAllowSpecific);
+}
+
 void ConfigureExceptionPage()
 {
     if (app.Environment.IsDevelopment())
@@ -58,7 +67,7 @@ void ConfigureApiDocs()
     if (app.Environment.IsDevelopment())
     {
         app.MapOpenApi();
-        app.MapScalarApiReference(); //.RequireAuthorization();
+        app.MapScalarApiReference();
     }
 }
 
@@ -74,12 +83,14 @@ void ConfigureHttps()
 
 void ConfigureAuthorization()
 {
-    app.MapIdentityApi<IdentityUser>();
+    app.MapCustomIdentityApi<IdentityUser>();
 
     // app.UseAuthentication();
     // app.UseAuthorization();
     // app.MapScalarApiReference().RequireAuthorization();
 }
+
+
 
 record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
 {
