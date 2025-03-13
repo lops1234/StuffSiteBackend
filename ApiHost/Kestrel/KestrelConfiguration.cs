@@ -20,6 +20,10 @@ public static class KestrelConfiguration
         var certKey = Environment.GetEnvironmentVariable("ASPNETCORE_Kestrel__Certificates__Default__Password") ??
                       loggingOptions?.Password;
 
+        // Console.WriteLine("certPath:" + certPath);
+        // Console.WriteLine("certKey:" + certKey);
+
+
         builder.WebHost.ConfigureKestrel(options =>
         {
             options.ConfigureHttpsDefaults(httpsOptions =>
