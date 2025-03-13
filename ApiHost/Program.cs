@@ -49,6 +49,7 @@ return;
 void ConfigureCors()
 {
     app.UseCors(CorsConfiguration.CorsAllowSpecific);
+     // app.UseCors(CorsConfiguration.CorsAllowAll);
 }
 
 void ConfigureExceptionPage()
